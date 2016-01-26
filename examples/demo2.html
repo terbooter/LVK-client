@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+</head>
+<body>
+<div class="container">
+    <h1>JS get lvk.publisher.events from publisher
+    </h1>
+    <script>
+        function publisherEvents(event) {
+            console.log("publisherEvents", event);
+        }
+
+        function publisherErrors(message) {
+            console.log("publisherErrors", message);
+        }
+
+        function publisherLogs(message) {
+            console.log("publisherLogs", message);
+        }
+
+
+        function playerEvents(event) {
+            console.log("playerEvents", event);
+        }
+
+        function playerErrors(error) {
+            console.log("playerErrors", error);
+        }
+
+        function playerLogs(logMessage) {
+            console.log("playerLogs", logMessage);
+        }
+    </script>
+    <object type="application/x-shockwave-flash" data="../bin/publisher.swf"
+            id="publisher" width="320" height="240">
+
+        <param name="movie" value="../bin/publisher.swf"/>
+        <param name="wmode" value="opaque"/>
+        <param name='AllowScriptAccess' value='always'/>
+        <param name="FlashVars"
+               value="eventsCallback=publisherEvents&errorsCallback=publisherErrors&logsCallback=publisherLogs"/>
+
+        <param name="quality" value="high"/>
+        <param name="menu" value="false"/>
+
+    </object>
+
+    <object type="application/x-shockwave-flash" data="../bin/player.swf"
+            id="player" width="320" height="240">
+
+        <param name="movie" value="../bin/player.swf"/>
+        <param name="wmode" value="opaque"/>
+        <param name='AllowScriptAccess' value='always'/>
+        <param name="FlashVars"
+               value="eventsCallback=playerEvents&errorsCallback=playerErrors&logsCallback=playerLogs"/>
+
+        <param name="quality" value="high"/>
+        <param name="menu" value="false"/>
+    </object>
+</div>
+
+</body>
+</html>

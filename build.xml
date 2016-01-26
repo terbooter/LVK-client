@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<project name="LVK publisher" default="compile_all">
+    <property name="FLEX_HOME" value="c:/work/SDK/flex_sdk_4.6"/>
+    <property name="PROJECT_DIR" value="${basedir}"/>
+
+    <target name="compile_all" depends="compile_player, compile_publisher">
+    </target>
+
+    <target name="compile_publisher">
+        <java jar="${FLEX_HOME}/lib/mxmlc.jar" dir="${FLEX_HOME}/frameworks" fork="true" failonerror="true">
+            <jvmarg value="-Duser.language=en -Duser.region=EN"/>
+            <arg value="${PROJECT_DIR}/src/PublisherWrapper.as"/>
+            <arg value="-incremental=false"/>
+            <arg value="-locale=en_US"/>
+            <arg value="-swf-version=17"/>
+
+            <arg value="-source-path+=${PROJECT_DIR}/src"/>
+
+            <arg value="-output=${PROJECT_DIR}/bin/publisher.swf"/>
+            <arg value="-target-player=17.0"/>
+            <arg value="-default-size=320,240"/>
+            <arg value="-default-background-color=0xFFFFFF"/>
+
+            <arg value="-static-link-runtime-shared-libraries"/>
+
+            <!-- Include classes from SWCs in this folder, but only the ones we use. -->
+
+            <arg value="-verbose-stacktraces=true"/>
+            <arg value="-headless-server=true"/>
+            <!--<arg value="-size-report=${flash.root}/ant/size/main.xml"/>-->
+            <arg value="-debug=false"/>
+        </java>
+    </target>
+
+    <target name="compile_player">
+
+        <java jar="${FLEX_HOME}/lib/mxmlc.jar" dir="${FLEX_HOME}/frameworks" fork="true" failonerror="true">
+            <jvmarg value="-Duser.language=en -Duser.region=EN"/>
+            <arg value="${PROJECT_DIR}/src/PlayerWrapper.as"/>
+            <arg value="-incremental=false"/>
+            <arg value="-locale=en_US"/>
+            <arg value="-swf-version=17"/>
+
+            <arg value="-source-path+=${PROJECT_DIR}/src"/>
+
+            <arg value="-output=${PROJECT_DIR}/bin/player.swf"/>
+            <arg value="-target-player=17.0"/>
+            <arg value="-default-size=320,240"/>
+            <arg value="-default-background-color=0xFFFFFF"/>
+
+            <arg value="-static-link-runtime-shared-libraries"/>
+
+            <!-- Include classes from SWCs in this folder, but only the ones we use. -->
+
+            <arg value="-verbose-stacktraces=true"/>
+            <arg value="-headless-server=true"/>
+            <!--<arg value="-size-report=${flash.root}/ant/size/main.xml"/>-->
+            <arg value="-debug=false"/>
+        </java>
+    </target>
+</project>

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+</head>
+<body>
+<div class="container">
+    <h1>Publisher start publish automatically. Press buttons to play different sources.</h1>
+    <object type="application/x-shockwave-flash" data="../bin/publisher.swf"
+            id="publisher" width="320" height="240">
+
+        <param name="movie" value="../bin/publisher.swf"/>
+        <param name="wmode" value="opaque"/>
+        <param name='AllowScriptAccess' value='always'/>
+        <param name="FlashVars"
+               value="eventsCallback=publisherEvents&errorsCallback=publisherErrors&logsCallback=publisherLogs"/>
+
+        <param name="quality" value="high"/>
+        <param name="menu" value="false"/>
+
+    </object>
+
+    <object type="application/x-shockwave-flash" data="../bin/player.swf"
+            id="player" width="320" height="240">
+
+        <param name="movie" value="../bin/player.swf"/>
+        <param name="wmode" value="opaque"/>
+        <param name='AllowScriptAccess' value='always'/>
+        <param name="FlashVars"
+               value="eventsCallback=playerEvents&errorsCallback=playerErrors&logsCallback=playerLogs"/>
+
+        <param name="quality" value="high"/>
+        <param name="menu" value="false"/>
+    </object>
+
+    <div class="panel container">
+        <button id="play1" class="btn btn-primary">Play FLV from stream</button>
+        <button id="play2" class="btn btn-primary">Play MP4 from stream</button>
+        <button id="play3" class="btn btn-primary">Play Live</button>
+        <button id="stop" class="btn btn-warning">Stop</button>
+    </div>
+    <div class="panel container">
+        <button id="publisher-status" class="btn btn-primary">Get publisher status</button>
+        <button id="player-status" class="btn btn-primary">Get player status</button>
+    </div>
+</div>
+</body>
+</html>
+
+<script>
+    $(function () {
+        var player = document.getElementById('player');
+        var publisher = document.getElementById('publisher');
+
+        $('#play1').click(function () {
+            player.play('rtmp://lvk.cloudapp.net:1937/vod', 'SampleVideo_360x240_2mb.flv');
+        });
+
+        $('#play2').click(function () {
+            player.play('rtmp://lvk.cloudapp.net:1937/vod', 'black_sea.mp4'); // You can skip file extension
+        });
+
+        $('#play3').click(function () {
+            player.play('rtmp://lvk.cloudapp.net:1937/xcams', 'myStream');
+        });
+
+        $('#stop').click(function () {
+            player.stop();
+        });
+
+        $('#player-status').click(function () {
+            var status = player.getStatus();
+            console.log(status);
+        });
+
+        $('#publisher-status').click(function () {
+            var status = publisher.getStatus();
+            console.log(status);
+        });
+    });
+
+
+    function playerEvents(event) {
+
+        if (event == 'created') {
+            //var player = document.getElementById('player');
+            //player.play('lvk.cloudapp.net:1937/vod', 'black_sea.mp4');
+        }
+
+        console.log("playerEvents", event);
+    }
+
+    function playerErrors(error) {
+        console.log("playerErrors", error);
+    }
+
+    function playerLogs(logMessage) {
+        console.log("playerLogs", logMessage);
+    }
+
+    function publisherEvents(event) {
+        console.log("publisherEvents", event);
+        if (event == "created") {
+            var publisher = document.getElementById('publisher');
+            publisher.publish("rtmp://lvk.cloudapp.net:1937/xcams", "myStream");
+        }
+    }
+
+    function publisherErrors(message) {
+        console.log("publisherErrors", message);
+    }
+
+    function publisherLogs(message) {
+        console.log("publisherLogs", message);
+    }
+</script>

@@ -1,4 +1,7 @@
 package {
+import flash.display.StageAlign;
+import flash.display.StageScaleMode;
+
 import lvk.publisher.Publisher;
 import lvk.publisher.events.ErrorEvent;
 import lvk.publisher.events.LogEvent;
@@ -13,6 +16,7 @@ import flash.text.TextFormat;
 
 import lvk.publisher.IPublisher;
 
+
 [SWF(width="320", height="240", backgroundColor="#BABABA", frameRate="60")]
 public class PublisherWrapper extends Sprite implements IPublisher {
 
@@ -23,6 +27,8 @@ public class PublisherWrapper extends Sprite implements IPublisher {
     private var logsCallback:String;
 
     public function PublisherWrapper() {
+        stage.scaleMode = StageScaleMode.NO_SCALE;
+        stage.align = StageAlign.TOP_LEFT;
         var flashVars:Object = loaderInfo.parameters;
         var code:String = checkRequiredFlashVars(flashVars);
         if (code != "ok") {
@@ -43,6 +49,7 @@ public class PublisherWrapper extends Sprite implements IPublisher {
             ExternalInterface.addCallback('publish', publish);
             ExternalInterface.addCallback('stop', stop);
             ExternalInterface.addCallback('getStatus', getStatus);
+            ExternalInterface.addCallback('setMode', setMode);
         } catch (error:SecurityError) {
             showFatalError(this, "SecurityError: Error #2060: \nSecurity sandbox violation: \nExternalInterface caller\n\nUPLOAD TO WEBSERVER");
             return;
@@ -57,7 +64,7 @@ public class PublisherWrapper extends Sprite implements IPublisher {
         publisher.webcamOn();
 
         ExternalInterface.call(stateCallback, 'created');
-        ExternalInterface.call(logsCallback, 'ver. 0.9');
+        ExternalInterface.call(logsCallback, 'ver. 0.10');
     }
 
 
@@ -117,6 +124,10 @@ public class PublisherWrapper extends Sprite implements IPublisher {
 
     public function webcamOn():void {
         publisher.webcamOn();
+    }
+
+    public function setMode(width:int, height:int, fps:int = 0):void {
+        publisher.setMode(width, height, fps);
     }
 }
 }

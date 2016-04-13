@@ -14,6 +14,6 @@ public interface IPublisher extends IEventDispatcher {
 
     function getStatus():Object;
 
-
+    function setMode(width:int, height:int, fps:int = 0):void;
 }
 }

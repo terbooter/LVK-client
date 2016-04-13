@@ -26,8 +26,12 @@ public class Publisher extends Sprite implements IPublisher {
 
     private var uri:String;
     private var streamName:String;
+    private var videoWidth:int = 320;
+    private var videoHeight:int = 240;
+    private var videoFps:int = 15;
 
-    private var video:Video = new Video(320, 240);
+
+    private var video:Video;
     private var cam:Camera;
     private var mic:Microphone;
     private var nc:NetConnection;
@@ -35,11 +39,13 @@ public class Publisher extends Sprite implements IPublisher {
     private var settingsButtonLayer:SettingsButtonLayer = new SettingsButtonLayer();
 
     public function Publisher() {
-        addChild(video);
-        addChild(settingsButtonLayer);
+
     }
 
     public function webcamOn():void {
+
+        createView();
+
         cam = WCamera.getCamera();
 
         if (cam == null) {
@@ -50,10 +56,35 @@ public class Publisher extends Sprite implements IPublisher {
             cam.addEventListener(Event.VIDEO_FRAME, onVideoFrame);
             cam.addEventListener(StatusEvent.STATUS, onCamStatus);
 
+            cam.setMode(videoWidth, videoHeight, videoFps);
+            log("Camera " + videoWidth + "x" + videoHeight + "  " + cam.width + "x" + cam.height);
             video.attachCamera(cam);
         }
 
         mic = WCamera.getMicrophone();
+    }
+
+    private function createView():void {
+        if (video && contains(video)) {
+            removeChild(video);
+        }
+        if (settingsButtonLayer && contains(settingsButtonLayer)) {
+            removeChild(settingsButtonLayer);
+        }
+        video = new Video(videoWidth, videoHeight);
+        var width:int = stage.stageWidth;
+        var height:int = stage.stageHeight;
+        if (width <= 0) {
+            width = 320;
+        }
+        if (height <= 0) {
+            height = 240
+        }
+        video.x = Math.floor((width - videoWidth) / 2);
+        video.y = Math.floor((height - videoHeight) / 2);
+
+        addChild(video);
+        addChild(settingsButtonLayer);
     }
 
     private function startPublish(streamName:String):void {
@@ -83,6 +114,7 @@ public class Publisher extends Sprite implements IPublisher {
     }
 
     public function connect(uri:String):void {
+        trace("Connect to ", uri);
         //Dont reconnect if already connected to same URI
         if (nc && nc.connected && nc.uri == uri) {
             return;
@@ -95,6 +127,7 @@ public class Publisher extends Sprite implements IPublisher {
         } else {
             nc.close();
         }
+        trace("AMF version:", nc.objectEncoding);
         nc.connect(uri);
     }
 
@@ -139,7 +172,10 @@ public class Publisher extends Sprite implements IPublisher {
         var status:Object = {
             uri: this.uri,
             streamName: streamName,
-            cameraMuted: cam.muted
+            cameraMuted: cam.muted,
+            cameraDriveWidth: videoWidth,
+            cameraDriverHeight: videoHeight,
+            cameraDriverFps: videoFps
         };
         status.connected = nc && nc.connected;
         status.publishing = Boolean(ns);
@@ -156,6 +192,15 @@ public class Publisher extends Sprite implements IPublisher {
         trace(message);
         var e:LogEvent = new LogEvent(message);
         dispatchEvent(e);
+    }
+
+    public function setMode(width:int, height:int, fps:int = 0):void {
+        videoWidth = width;
+        videoHeight = height;
+        if (fps && fps > 0) {
+            videoFps = fps;
+        }
+        webcamOn();
     }
 }
 }

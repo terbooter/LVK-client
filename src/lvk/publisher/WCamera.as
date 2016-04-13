@@ -24,7 +24,8 @@ public class WCamera {
 
         if (cam) {
             cam.setKeyFrameInterval(40);
-            cam.setMode(320, 240, 15);
+//            cam.setMode(320, 240, 15);
+//            cam.setMode(500, 375, 15);
             cam.setQuality(65536, 10);
             cam.setLoopback(false);
         }

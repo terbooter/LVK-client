@@ -1,6 +1,7 @@
 package lvk.publisher {
 import flash.display.DisplayObject;
 import flash.display.Sprite;
+import flash.events.Event;
 import flash.events.MouseEvent;
 import flash.filters.GlowFilter;
 import flash.system.Security;
@@ -21,9 +22,10 @@ public class SettingsButtonLayer extends Sprite {
         settingsButton.addEventListener(MouseEvent.MOUSE_OVER, onOver);
         settingsButton.addEventListener(MouseEvent.MOUSE_OUT, onOut);
         settingsButton.buttonMode = true;
-        settingsButton.x = (320 - 100) / 2;
-        settingsButton.y = (240 - 100) / 2;
+
         settingsButton.filters = [new GlowFilter(0xffffff)];
+
+        addEventListener(Event.ADDED_TO_STAGE, onStage);
     }
 
     public function showSettingsButton():void {
@@ -48,6 +50,19 @@ public class SettingsButtonLayer extends Sprite {
 
     private function onOut(event:MouseEvent):void {
         event.target.filters = [new GlowFilter(0xffffff)];
+    }
+
+    private function onStage(event:Event):void {
+        var width:int = stage.stageWidth;
+        var height:int = stage.stageHeight;
+        if (width <= 0) {
+            width = 320;
+        }
+        if (height <= 0) {
+            height = 240
+        }
+        settingsButton.x = Math.floor((width - 100) / 2);
+        settingsButton.y = Math.floor((height - 100) / 2);
     }
 }
 }

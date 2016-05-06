@@ -1,5 +1,8 @@
 package {
+import com.adobe.crypto.MD5;
+
 import flash.display.DisplayObject;
+import flash.utils.setTimeout;
 
 import lvk.publisher.IPublisher;
 import lvk.publisher.events.ErrorEvent;
@@ -18,7 +21,20 @@ public class PublisherTester extends Sprite {
         publisher.publish('rtmp://lvk.cloudapp.net:1937/vod', 'liveStream01');
 
 //        publisher.setMode(500, 375);
-        publisher.setMode(480, 360);
+        publisher.setMode(500, 375);
+
+        var secret:String = "SECRET";
+        var jpgFile:String = "test5.jpg";
+        var token:String = MD5.hash(jpgFile + secret);
+        setTimeout(function ():void {
+            var url:String = "http://lvk.cloudapp.net:82/upload";
+//            var url:String = "http://192.168.0.30:82/upload";
+            publisher.takeScreenshot(url, jpgFile, token, 200, 150);
+        }, 5000);
+
+        var d:Number = (new Date()).time;
+        trace(MD5.hash("1234"));
+        trace((new Date()).time - d);
 
     }
 

@@ -15,5 +15,12 @@ public interface IPublisher extends IEventDispatcher {
     function getStatus():Object;
 
     function setMode(width:int, height:int, fps:int = 0):void;
+
+    function takeScreenshot(uploadURL:String,
+                            jpgFile:String,
+                            token:String,
+                            width:int = 160,
+                            heigth:int = 120,
+                            customParam:String = null);
 }
 }

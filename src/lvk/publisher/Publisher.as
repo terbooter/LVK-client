@@ -3,7 +3,9 @@ package lvk.publisher {
 import flash.display.Sprite;
 import flash.events.ActivityEvent;
 import flash.events.Event;
+import flash.events.IOErrorEvent;
 import flash.events.NetStatusEvent;
+import flash.events.SecurityErrorEvent;
 import flash.events.StatusEvent;
 import flash.media.Camera;
 import flash.media.H264Level;
@@ -13,10 +15,14 @@ import flash.media.Microphone;
 import flash.media.Video;
 import flash.net.NetConnection;
 import flash.net.NetStream;
+import flash.utils.ByteArray;
 
 import lvk.publisher.events.ErrorEvent;
 import lvk.publisher.events.LogEvent;
 import lvk.publisher.events.StateEvent;
+import lvk.screenshot.ImgUploader;
+import lvk.screenshot.Screenshoter;
+import lvk.screenshot.UploadParams;
 
 [SWF(width="320", height="240", backgroundColor="#BABABA", frameRate="60")]
 public class Publisher extends Sprite implements IPublisher {
@@ -29,6 +35,7 @@ public class Publisher extends Sprite implements IPublisher {
     private var videoWidth:int = 320;
     private var videoHeight:int = 240;
     private var videoFps:int = 15;
+    private var thumbURL:String = "";
 
 
     private var video:Video;
@@ -37,6 +44,7 @@ public class Publisher extends Sprite implements IPublisher {
     private var nc:NetConnection;
     private var ns:NetStream;
     private var settingsButtonLayer:SettingsButtonLayer = new SettingsButtonLayer();
+    private var screenshoter:Screenshoter;
 
     public function Publisher() {
 
@@ -175,7 +183,8 @@ public class Publisher extends Sprite implements IPublisher {
             cameraMuted: cam.muted,
             cameraDriveWidth: videoWidth,
             cameraDriverHeight: videoHeight,
-            cameraDriverFps: videoFps
+            cameraDriverFps: videoFps,
+            thumbURL: thumbURL
         };
         status.connected = nc && nc.connected;
         status.publishing = Boolean(ns);
@@ -201,6 +210,51 @@ public class Publisher extends Sprite implements IPublisher {
             videoFps = fps;
         }
         webcamOn();
+    }
+
+    public function takeScreenshot(uploadURL:String,
+                                   jpgFile:String,
+                                   token:String,
+                                   width:int = 160,
+                                   heigth:int = 120,
+                                   customParam:String = null) {
+        if (!screenshoter) {
+            screenshoter = new Screenshoter();
+        }
+
+        var byteArray:ByteArray = screenshoter.takeScreenshot(videoWidth, videoHeight, cam, width, heigth);
+        var params:UploadParams = new UploadParams();
+        params.jpgFile = jpgFile;
+        params.token = token;
+        params.customParam = customParam;
+
+        var uploader:ImgUploader = new ImgUploader();
+        uploader.addEventListener(Event.COMPLETE, onScreenShotUpload);
+        uploader.addEventListener(IOErrorEvent.IO_ERROR, onThumbIOError);
+        uploader.addEventListener(SecurityErrorEvent.SECURITY_ERROR, onThumbSecurityError);
+        uploader.upload(uploadURL, byteArray, params);
+
+    }
+
+    private function onThumbSecurityError(event:SecurityErrorEvent):void {
+        dispatchEvent(new ErrorEvent("onThumbSecurityError"));
+        dispatchEvent(new LogEvent(event.toString()));
+    }
+
+    private function onThumbIOError(event:IOErrorEvent):void {
+        dispatchEvent(new ErrorEvent("onThumbIOError"));
+    }
+
+    private function onScreenShotUpload(event:Event):void {
+        var uploader:ImgUploader = ImgUploader(event.target);
+        var e:LogEvent = new LogEvent(uploader.data);
+        dispatchEvent(e);
+        var o:Object = JSON.parse(uploader.data);
+        this.thumbURL = o.url;
+        if (o.ok) {
+            var stateEvent:StateEvent = new StateEvent("thumb_uploaded");
+            dispatchEvent(stateEvent);
+        }
     }
 }
 }

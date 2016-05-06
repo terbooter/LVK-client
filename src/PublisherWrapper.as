@@ -50,6 +50,7 @@ public class PublisherWrapper extends Sprite implements IPublisher {
             ExternalInterface.addCallback('stop', stop);
             ExternalInterface.addCallback('getStatus', getStatus);
             ExternalInterface.addCallback('setMode', setMode);
+            ExternalInterface.addCallback('takeScreenshot', takeScreenshot);
         } catch (error:SecurityError) {
             showFatalError(this, "SecurityError: Error #2060: \nSecurity sandbox violation: \nExternalInterface caller\n\nUPLOAD TO WEBSERVER");
             return;
@@ -64,7 +65,7 @@ public class PublisherWrapper extends Sprite implements IPublisher {
         publisher.webcamOn();
 
         ExternalInterface.call(stateCallback, 'created');
-        ExternalInterface.call(logsCallback, 'ver. 0.10');
+        ExternalInterface.call(logsCallback, 'ver. 0.11');
     }
 
 
@@ -128,6 +129,16 @@ public class PublisherWrapper extends Sprite implements IPublisher {
 
     public function setMode(width:int, height:int, fps:int = 0):void {
         publisher.setMode(width, height, fps);
+    }
+
+    public function takeScreenshot(uploadURL:String,
+                                   jpgFile:String,
+                                   token:String,
+                                   width:int = 160,
+                                   heigth:int = 120,
+                                   customParam:String = null) {
+
+        publisher.takeScreenshot(uploadURL, jpgFile, token, width, heigth, customParam);
     }
 }
 }

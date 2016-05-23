@@ -13,5 +13,7 @@ public interface IPlayer extends IEventDispatcher {
 
     function getStatus():Object;
 
+    function setMode(width:int = 320, heigth:int = 240):void;
+
 }
 }

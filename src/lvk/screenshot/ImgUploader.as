@@ -20,7 +20,7 @@ public class ImgUploader extends URLLoader {
         addEventListener(SecurityErrorEvent.SECURITY_ERROR, onSecurityViolation);
     }
 
-    public function upload(uploadURL:String, imageByteArray:ByteArray, params:UploadParams) {
+    public function upload(uploadURL:String, imageByteArray:ByteArray, params:UploadParams):void {
         var header:URLRequestHeader = new URLRequestHeader("Content-type", "application/octet-stream");
         var request:URLRequest = new URLRequest(makeURL(uploadURL, params.toObject()));
         request.requestHeaders.push(header);

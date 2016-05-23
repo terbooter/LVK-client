@@ -16,6 +16,10 @@ public class Player extends Sprite implements IPlayer {
     private var nc:NetConnection = new NetConnection();
     private var ns:NetStream;
     private var video:Video;
+    private var preloader:Preloader;
+
+    private var videoWidth:int = 320;
+    private var videoHeigth:int = 240;
 
     private var reconnectTimeoutID:int;
     private var model:PlayerModel = new PlayerModel();
@@ -24,7 +28,7 @@ public class Player extends Sprite implements IPlayer {
         nc.addEventListener(NetStatusEvent.NET_STATUS, onNet);
         model.addEventListener(Event.CHANGE, onModelChange);
 
-        var preloader:Preloader = new Preloader(model);
+        preloader = new Preloader(model, videoWidth, videoHeigth);
         addChild(preloader);
 
         model.setState(State.STOPPED);
@@ -44,7 +48,7 @@ public class Player extends Sprite implements IPlayer {
     private function internalPlay():void {
         if (nc && nc.connected && model.streamName) {
 
-            video = new Video(320, 240);
+            video = new Video(videoWidth, videoHeigth);
             addChild(video);
 
             ns = new NetStream(nc);
@@ -154,6 +158,17 @@ public class Player extends Sprite implements IPlayer {
     private function onModelChange(event:Event):void {
         var e:StateEvent = new StateEvent(model.getState());
         dispatchEvent(e);
+    }
+
+    public function setMode(width:int = 320, heigth:int = 240):void {
+        videoWidth = width;
+        videoHeigth = heigth;
+        if (video) {
+            video.width = width;
+            video.height = heigth;
+        }
+
+        preloader.setSize(width, heigth);
     }
 }
 }

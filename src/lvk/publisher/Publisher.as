@@ -184,7 +184,8 @@ public class Publisher extends Sprite implements IPublisher {
             cameraDriveWidth: videoWidth,
             cameraDriverHeight: videoHeight,
             cameraDriverFps: videoFps,
-            thumbURL: thumbURL
+            thumbURL: thumbURL,
+            liveDelay: false
         };
         status.connected = nc && nc.connected;
         status.publishing = Boolean(ns);
@@ -217,7 +218,7 @@ public class Publisher extends Sprite implements IPublisher {
                                    token:String,
                                    width:int = 160,
                                    heigth:int = 120,
-                                   customParam:String = null) {
+                                   customParam:String = null):void {
         if (!screenshoter) {
             screenshoter = new Screenshoter();
         }
@@ -255,6 +256,10 @@ public class Publisher extends Sprite implements IPublisher {
             var stateEvent:StateEvent = new StateEvent("thumb_uploaded");
             dispatchEvent(stateEvent);
         }
+    }
+
+    public function liveDelayON():void {
+
     }
 }
 }

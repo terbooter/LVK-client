@@ -8,6 +8,8 @@ public interface IPublisher extends IEventDispatcher {
 
     function webcamOn():void;
 
+    function liveDelayON():void;
+
     function publish(uri:String, streamName:String):void;
 
     function stop():void;
@@ -21,6 +23,6 @@ public interface IPublisher extends IEventDispatcher {
                             token:String,
                             width:int = 160,
                             heigth:int = 120,
-                            customParam:String = null);
+                            customParam:String = null):void;
 }
 }

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="md5.min.js"></script>
+</head>
+<style>
+    #publisher-wrapper {
+        width: 500px;
+        height: 375px;
+        display: inline-block;
+    }
+</style>
+<body>
+<div class="container">
+    <h1>Publisher has Live delay preview mode. So broadcaster can watch his translation exactly as other users
+    </h1>
+    <script>
+
+        var uploadDomain = "lvk.cloudapp.net";
+        //var uploadDomain = "192.168.0.30";
+
+        function publisherEvents(event) {
+            console.log("publisherEvents", event);
+
+            if (event == "created") {
+                var publisher = document.getElementById('publisher');
+                publisher.setMode(500, 375);
+                publisher.publish('rtmp://lvk.cloudapp.net:1937/xcams', 'liveStream02');
+            }
+        }
+
+        function publisherErrors(message) {
+            console.log("publisherErrors", message);
+        }
+
+        function publisherLogs(message) {
+            console.log("publisherLogs", message);
+        }
+
+        $(function () {
+            var publisher = document.getElementById('publisher');
+
+            $('#liveDelayON').click(function () {
+                console.log("liveDelayON");
+                publisher.liveDelayON();
+            });
+
+            $('#getStatus').click(function () {
+                console.log(publisher.getStatus());
+            });
+        });
+
+    </script>
+    <div id="publisher-wrapper">
+        <object type="application/x-shockwave-flash" data="../bin/publisher.swf"
+                id="publisher" width="100%" height="100%">
+
+            <param name="movie" value="../bin/publisher.swf"/>
+            <param name="wmode" value="opaque"/>
+            <param name='AllowScriptAccess' value='always'/>
+            <param name="FlashVars"
+                   value="eventsCallback=publisherEvents&errorsCallback=publisherErrors&logsCallback=publisherLogs"/>
+
+            <param name="quality" value="high"/>
+            <param name="menu" value="false"/>
+
+        </object>
+    </div>
+
+</div>
+<div class="container">
+    <button id="liveDelayON" class="btn btn-primary">Live Delay ON</button>
+    <button id="getStatus" class="btn btn-primary">Get Status</button>
+</div>
+
+
+</body>
+</html>

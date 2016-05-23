@@ -15,6 +15,8 @@ public class Screenshoter {
     }
 
     public function takeScreenshot(videoWidth:int, videoHeigth:int, camera:Camera, w:int = 160, h:int = 120, jpgQuality:int = 84):ByteArray {
+        videoWidth = camera.width;
+        videoHeigth = camera.height;
         var bitmapData:BitmapData = new BitmapData(videoWidth, videoHeigth, false);
         if (camera) {
             camera.drawToBitmapData(bitmapData);
@@ -37,7 +39,7 @@ public class Screenshoter {
         var result:BitmapData = new BitmapData(width, height, transparent);
         var matrix:Matrix = new Matrix();
         matrix.scale(scaleX, scaleY);
-        result.draw(bitmapData, matrix);
+        result.draw(bitmapData, matrix, null, null, null, true);
         return result;
     }
 }

@@ -9,13 +9,27 @@ public class Preloader extends Sprite {
     private var preloader:Sprite = new CircleSlicePreloader(12, 6);
     private var model:PlayerModel;
 
-    public function Preloader(model:PlayerModel) {
+    private var videoWidth:int = 320;
+    private var videoHeigth:int = 240;
+
+    public function Preloader(model:PlayerModel, videoWidth:int, videoHeigth:int) {
+        this.videoWidth = videoWidth;
+        this.videoHeigth = videoHeigth;
+
         this.model = model;
         addChild(preloader);
-        preloader.x = (320 ) / 2;
-        preloader.y = (240 ) / 2;
+        preloader.x = videoWidth / 2;
+        preloader.y = videoHeigth / 2;
 
         model.addEventListener(Event.CHANGE, onChange);
+    }
+
+    public function setSize(videoWidth:int, videoHeigth:int):void {
+        this.videoWidth = videoWidth;
+        this.videoHeigth = videoHeigth;
+
+        preloader.x = videoWidth / 2;
+        preloader.y = videoHeigth / 2;
     }
 
     private function onChange(event:Event):void {

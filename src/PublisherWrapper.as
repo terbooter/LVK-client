@@ -1,21 +1,18 @@
 package {
-import flash.display.StageAlign;
-import flash.display.StageScaleMode;
-
-import lvk.publisher.Publisher;
-import lvk.publisher.events.ErrorEvent;
-import lvk.publisher.events.LogEvent;
-import lvk.publisher.events.StateEvent;
-
 import flash.display.DisplayObjectContainer;
 import flash.display.Sprite;
+import flash.display.StageAlign;
+import flash.display.StageScaleMode;
 import flash.external.ExternalInterface;
 import flash.text.TextField;
 import flash.text.TextFieldAutoSize;
 import flash.text.TextFormat;
 
 import lvk.publisher.IPublisher;
-
+import lvk.publisher.LiveDelayPublisher;
+import lvk.publisher.events.ErrorEvent;
+import lvk.publisher.events.LogEvent;
+import lvk.publisher.events.StateEvent;
 
 [SWF(width="320", height="240", backgroundColor="#BABABA", frameRate="60")]
 public class PublisherWrapper extends Sprite implements IPublisher {
@@ -51,12 +48,13 @@ public class PublisherWrapper extends Sprite implements IPublisher {
             ExternalInterface.addCallback('getStatus', getStatus);
             ExternalInterface.addCallback('setMode', setMode);
             ExternalInterface.addCallback('takeScreenshot', takeScreenshot);
+            ExternalInterface.addCallback('liveDelayON', liveDelayON);
         } catch (error:SecurityError) {
             showFatalError(this, "SecurityError: Error #2060: \nSecurity sandbox violation: \nExternalInterface caller\n\nUPLOAD TO WEBSERVER");
             return;
         }
 
-        publisher = new Publisher();
+        publisher = new LiveDelayPublisher();
         addChild(publisher as Sprite);
 
         publisher.addEventListener(StateEvent.STATE_CHANGE, onState);
@@ -65,7 +63,7 @@ public class PublisherWrapper extends Sprite implements IPublisher {
         publisher.webcamOn();
 
         ExternalInterface.call(stateCallback, 'created');
-        ExternalInterface.call(logsCallback, 'ver. 0.11');
+        ExternalInterface.call(logsCallback, 'ver. 0.14');
     }
 
 
@@ -136,9 +134,13 @@ public class PublisherWrapper extends Sprite implements IPublisher {
                                    token:String,
                                    width:int = 160,
                                    heigth:int = 120,
-                                   customParam:String = null) {
+                                   customParam:String = null):void {
 
         publisher.takeScreenshot(uploadURL, jpgFile, token, width, heigth, customParam);
+    }
+
+    public function liveDelayON():void {
+        publisher.liveDelayON();
     }
 }
 }

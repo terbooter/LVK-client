@@ -89,7 +89,7 @@
         });
 
         $('#play3').click(function () {
-            player.play('rtmp://lvk.cloudapp.net:1937/xcams', 'myStream');
+            player.play('rtmp://lvk.cloudapp.net:1937/xcams', 'myStream04');
         });
 
         $('#stop').click(function () {
@@ -130,7 +130,7 @@
         console.log("publisherEvents", event);
         if (event == "created") {
             var publisher = document.getElementById('publisher');
-            publisher.publish("rtmp://lvk.cloudapp.net:1937/xcams", "myStream");
+            publisher.publish("rtmp://lvk.cloudapp.net:1937/xcams", "myStream04");
         }
     }
 

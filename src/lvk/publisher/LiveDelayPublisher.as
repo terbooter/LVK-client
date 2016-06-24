@@ -33,6 +33,7 @@ public class LiveDelayPublisher extends Sprite implements IPublisher {
         addChild(player as Sprite);
         trace("uri=" + publisher.getStatus().uri);
         trace("streamName=" + publisher.getStatus().streamName);
+        player.setSoundVolume(0);
         player.play(publisher.getStatus().uri, publisher.getStatus().streamName);
         isLiveDelay = true;
     }

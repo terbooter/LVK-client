@@ -63,7 +63,7 @@ public class PublisherWrapper extends Sprite implements IPublisher {
         publisher.webcamOn();
 
         ExternalInterface.call(stateCallback, 'created');
-        ExternalInterface.call(logsCallback, 'ver. 0.14');
+        ExternalInterface.call(logsCallback, 'ver. 0.15');
     }
 
 

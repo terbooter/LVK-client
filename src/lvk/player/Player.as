@@ -2,6 +2,7 @@ package lvk.player {
 import flash.display.Sprite;
 import flash.events.Event;
 import flash.events.NetStatusEvent;
+import flash.media.SoundTransform;
 import flash.media.Video;
 import flash.net.NetConnection;
 import flash.net.NetStream;
@@ -20,6 +21,8 @@ public class Player extends Sprite implements IPlayer {
 
     private var videoWidth:int = 320;
     private var videoHeigth:int = 240;
+
+    private var streamSoundTransform:SoundTransform = new SoundTransform(1);
 
     private var reconnectTimeoutID:int;
     private var model:PlayerModel = new PlayerModel();
@@ -56,6 +59,7 @@ public class Player extends Sprite implements IPlayer {
             ns.addEventListener(NetStatusEvent.NET_STATUS, onStream);
             video.attachNetStream(ns);
             ns.play(model.streamName);
+            ns.soundTransform = this.streamSoundTransform;
             model.setState(State.OPENING);
 
             log("startPlay=" + model.streamName);
@@ -116,6 +120,7 @@ public class Player extends Sprite implements IPlayer {
         };
         status.connected = nc && nc.connected;
         status.playing = Boolean(ns);
+        status.soundVolume = Math.floor(this.streamSoundTransform.volume * 100);
 
         return status;
     }
@@ -169,6 +174,21 @@ public class Player extends Sprite implements IPlayer {
         }
 
         preloader.setSize(width, heigth);
+    }
+
+    public function setSoundVolume(percents:Number):void {
+        percents = Math.floor(percents);
+        if (percents < 0) {
+            percents = 0;
+        }
+        if (percents > 100) {
+            percents = 100;
+        }
+        var st:SoundTransform = new SoundTransform(percents / 100);
+        this.streamSoundTransform = st;
+        if (this.ns) {
+            this.ns.soundTransform = st;
+        }
     }
 }
 }

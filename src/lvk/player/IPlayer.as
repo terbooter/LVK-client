@@ -15,5 +15,7 @@ public interface IPlayer extends IEventDispatcher {
 
     function setMode(width:int = 320, heigth:int = 240):void;
 
+    function setSoundVolume(percents:Number):void;
+
 }
 }

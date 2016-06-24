@@ -49,6 +49,7 @@ public class PlayerWrapper extends Sprite {
             ExternalInterface.addCallback('play', play);
             ExternalInterface.addCallback('stop', stop);
             ExternalInterface.addCallback('getStatus', getStatus);
+            ExternalInterface.addCallback('setSoundVolume', setSoundVolume);
         } catch (error:SecurityError) {
             showFatalError(this, "ExternalInterface Security Error!\n\nUPLOAD TO WEBSERVER");
         }
@@ -61,7 +62,7 @@ public class PlayerWrapper extends Sprite {
         player.addEventListener(LogEvent.LOG, onPlayerLog);
 
         ExternalInterface.call(stateCallback, 'created');
-        ExternalInterface.call(logsCallback, 'ver. 1.0.0');
+        ExternalInterface.call(logsCallback, 'ver. 1.1.1');
     }
 
     public function play(uri:String, streamName:String):void {
@@ -74,6 +75,10 @@ public class PlayerWrapper extends Sprite {
 
     public function getStatus():Object {
         return player.getStatus();
+    }
+
+    public function setSoundVolume(percents:int):void {
+        player.setSoundVolume(percents);
     }
 
     private function checkRequiredFlashVars(flashVars:Object):String {

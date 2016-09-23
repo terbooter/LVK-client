@@ -16,7 +16,7 @@ Both connect to LVK-server
 
 ## Publisher
 JS API:
-* publish(uri:String, streamName:String)
+* `actionscript publish(uri:String, streamName:String)`
 * stop()
 * getStatus():Object
 * setMode(width:int, height:int, fps:int = 0)

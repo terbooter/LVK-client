@@ -11,6 +11,7 @@ LVK consists of 3 parts:
 LVK - client consists of two parts:
 * Publisher
 * Player
+
 Both connect to LVK-server
 
 ## Publisher

@@ -16,7 +16,7 @@
 
             <arg value="-source-path+=${PROJECT_DIR}/src"/>
 
-            <arg value="-output=${PROJECT_DIR}/bin/publisher.swf"/>
+            <arg value="-output=${PROJECT_DIR}/docs/bin/publisher.swf"/>
             <arg value="-target-player=17.0"/>
             <arg value="-default-size=320,240"/>
             <arg value="-default-background-color=0xFFFFFF"/>
@@ -43,7 +43,7 @@
 
             <arg value="-source-path+=${PROJECT_DIR}/src"/>
 
-            <arg value="-output=${PROJECT_DIR}/bin/player.swf"/>
+            <arg value="-output=${PROJECT_DIR}/docs/bin/player.swf"/>
             <arg value="-target-player=17.0"/>
             <arg value="-default-size=320,240"/>
             <arg value="-default-background-color=0xFFFFFF"/>

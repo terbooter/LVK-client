@@ -16,22 +16,31 @@ Both connect to LVK-server
 
 ## Publisher
 JS API:
-* `actionscript publish(uri:String, streamName:String)`
-* stop()
-* getStatus():Object
-* setMode(width:int, height:int, fps:int = 0)
-* takeScreenshot(uploadURL:String,
+* ```actionscript
+publish(uri:String, streamName:String)
+```
+* `stop()`
+* `getStatus():Object`
+* ```actionscript
+setMode(width:int, height:int, fps:int = 0)
+```
+* ```actionscript
+takeScreenshot(uploadURL:String,
                  jpgFile:String,
                  token:String,
                  width:int = 160,
                  heigth:int = 120,
                  customParam:String = null)
-
-* liveDelayON()
+```
+* `liveDelayON()`
 
 ## Player
 JS API:
-* play(uri:String, streamName:String)
-* stop()
-* getStatus():Object
-* setSoundVolume(volume:int)
+* ```actionscript
+play(uri:String, streamName:String)
+```
+* `stop()`
+* `getStatus():Object`
+* ```actionscript
+setSoundVolume(volume:int)
+```

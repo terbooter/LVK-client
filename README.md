@@ -1,6 +1,6 @@
 # Live Video Kit Client
 
-
+**Demo:** http://terbooter.github.io/LVK-client/
 
 This is LVK client part. You have to install [LVK-server](https://github.com/terbooter/LVK-server) to connect you client to it.
 

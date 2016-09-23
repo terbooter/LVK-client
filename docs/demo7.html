@@ -8,13 +8,6 @@
     <script src="md5.min.js"></script>
 </head>
 <style>
-    #thumb {
-        width: 200px;
-        height: 150px;
-        background-color: lightblue;
-        display: inline-block;
-    }
-
     #publisher-wrapper {
         width: 500px;
         height: 375px;
@@ -23,25 +16,21 @@
 </style>
 <body>
 <div class="container">
-    <h1>takeScreenshot method sample
-    </h1>
+    <h1>Publisher liveDelayON()</h1>
+    <p>Publisher has Live delay preview mode. So broadcaster can watch his translation exactly as other users
+    </p>
     <script>
 
-//        var uploadDomain = "lvk.cloudapp.net";
-        var uploadDomain = "192.168.0.30";
+        var uploadDomain = "lvk.cloudapp.net";
+        //var uploadDomain = "192.168.0.30";
 
         function publisherEvents(event) {
             console.log("publisherEvents", event);
-            if (event == "thumb_uploaded") {
-                var publisher = document.getElementById('publisher');
-                var thumbURL = publisher.getStatus().thumbURL;
-                thumbURL = "http://" + uploadDomain + ":83/thumbs/" + thumbURL + "?r=" + Math.random();
-                $('#thumb').css('background-image', 'url(' + thumbURL + ')');
-            }
 
             if (event == "created") {
                 var publisher = document.getElementById('publisher');
                 publisher.setMode(500, 375);
+                publisher.publish('rtmp://lvk.cloudapp.net:1937/xcams', 'liveStream07');
             }
         }
 
@@ -55,15 +44,10 @@
 
         $(function () {
             var publisher = document.getElementById('publisher');
-            var uploadURL = "http://" + uploadDomain + ":83/upload";
-            var thumbsURL = "http://" + uploadDomain + ":83/";
-            var jpgFile = Math.floor(Math.random() * 1000) + ".jpg";
-            var token = md5(jpgFile + "SECRET");
 
-
-            $('#takeThumb').click(function () {
-                console.log(uploadURL, jpgFile, token);
-                publisher.takeScreenshot(uploadURL, jpgFile, token, 200, 150);
+            $('#liveDelayON').click(function () {
+                console.log("liveDelayON");
+                publisher.liveDelayON();
             });
 
             $('#getStatus').click(function () {
@@ -73,10 +57,10 @@
 
     </script>
     <div id="publisher-wrapper">
-        <object type="application/x-shockwave-flash" data="../bin/publisher.swf"
+        <object type="application/x-shockwave-flash" data="./bin/publisher.swf"
                 id="publisher" width="100%" height="100%">
 
-            <param name="movie" value="../bin/publisher.swf"/>
+            <param name="movie" value="./bin/publisher.swf"/>
             <param name="wmode" value="opaque"/>
             <param name='AllowScriptAccess' value='always'/>
             <param name="FlashVars"
@@ -88,11 +72,9 @@
         </object>
     </div>
 
-    <div id="thumb"></div>
-
 </div>
 <div class="container">
-    <button id="takeThumb" class="btn btn-primary">Take Thumb</button>
+    <button id="liveDelayON" class="btn btn-primary">Live Delay ON</button>
     <button id="getStatus" class="btn btn-primary">Get Status</button>
 </div>
 

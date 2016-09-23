@@ -23,19 +23,19 @@
 </style>
 <body>
 <div class="container">
-    <h1>takeScreenshot method sample
+    <h1>takeScreenshot() method sample
     </h1>
     <script>
 
-//        var uploadDomain = "lvk.cloudapp.net";
-        var uploadDomain = "192.168.0.30";
+        var uploadDomain = "lvk.cloudapp.net";
+        //        var uploadDomain = "192.168.0.30";
 
         function publisherEvents(event) {
             console.log("publisherEvents", event);
             if (event == "thumb_uploaded") {
                 var publisher = document.getElementById('publisher');
                 var thumbURL = publisher.getStatus().thumbURL;
-                thumbURL = "http://" + uploadDomain + ":83/thumbs/" + thumbURL + "?r=" + Math.random();
+                thumbURL = "http://" + uploadDomain + ":80/thumbs/" + thumbURL + "?r=" + Math.random();
                 $('#thumb').css('background-image', 'url(' + thumbURL + ')');
             }
 
@@ -55,9 +55,9 @@
 
         $(function () {
             var publisher = document.getElementById('publisher');
-            var uploadURL = "http://" + uploadDomain + ":83/upload";
-            var thumbsURL = "http://" + uploadDomain + ":83/";
-            var jpgFile = Math.floor(Math.random() * 1000) + ".jpg";
+            var uploadURL = "http://" + uploadDomain + ":80/upload";
+            var thumbsURL = "http://" + uploadDomain + ":80/";
+            var jpgFile = Math.floor(Math.random() * 10000) + ".jpg";
             var token = md5(jpgFile + "SECRET");
 
 
@@ -73,10 +73,10 @@
 
     </script>
     <div id="publisher-wrapper">
-        <object type="application/x-shockwave-flash" data="../bin/publisher.swf"
+        <object type="application/x-shockwave-flash" data="./bin/publisher.swf"
                 id="publisher" width="100%" height="100%">
 
-            <param name="movie" value="../bin/publisher.swf"/>
+            <param name="movie" value="./bin/publisher.swf"/>
             <param name="wmode" value="opaque"/>
             <param name='AllowScriptAccess' value='always'/>
             <param name="FlashVars"

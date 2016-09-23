@@ -8,7 +8,7 @@
 </head>
 <body>
 <div class="container">
-    <h1>Publisher start publish automatically. Press buttons to play different sources.</h1>
+    <h1>Player has setSoundVolume API method</h1>
     <object type="application/x-shockwave-flash" data="./bin/publisher.swf"
             id="publisher" width="320" height="240">
 
@@ -46,6 +46,14 @@
         <button id="publisher-status" class="btn btn-primary">Get publisher status</button>
         <button id="player-status" class="btn btn-primary">Get player status</button>
     </div>
+    <div class="panel container">
+        <button id="volume0" class="btn btn-primary">Volume 0 (Mute)</button>
+        <button id="volume20" class="btn btn-primary">Volume 20</button>
+        <button id="volume40" class="btn btn-primary">Volume 40</button>
+        <button id="volume60" class="btn btn-primary">Volume 60</button>
+        <button id="volume80" class="btn btn-primary">Volume 80</button>
+        <button id="volume100" class="btn btn-primary">Volume 100</button>
+    </div>
 </div>
 </body>
 </html>
@@ -64,7 +72,7 @@
         });
 
         $('#play3').click(function () {
-            player.play('rtmp://lvk.cloudapp.net:1937/xcams', 'myStream01');
+            player.play('rtmp://lvk.cloudapp.net:1937/xcams', 'myStream08');
         });
 
         $('#stop').click(function () {
@@ -79,6 +87,25 @@
         $('#publisher-status').click(function () {
             var status = publisher.getStatus();
             console.log(status);
+        });
+
+        $('#volume0').click(function () {
+            player.setSoundVolume(0);
+        });
+        $('#volume20').click(function () {
+            player.setSoundVolume(20);
+        });
+        $('#volume40').click(function () {
+            player.setSoundVolume(40);
+        });
+        $('#volume60').click(function () {
+            player.setSoundVolume(60);
+        });
+        $('#volume80').click(function () {
+            player.setSoundVolume(80);
+        });
+        $('#volume100').click(function () {
+            player.setSoundVolume(100);
         });
     });
 
@@ -105,7 +132,7 @@
         console.log("publisherEvents", event);
         if (event == "created") {
             var publisher = document.getElementById('publisher');
-            publisher.publish("rtmp://lvk.cloudapp.net:1937/xcams", "myStream01");
+            publisher.publish("rtmp://lvk.cloudapp.net:1937/xcams", "myStream08");
         }
     }
 

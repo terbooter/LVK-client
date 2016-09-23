@@ -7,34 +7,59 @@
     <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
 </head>
 <body>
+
 <div class="container">
-    <h1>Publisher start publish automatically. Press buttons to play different sources.</h1>
-    <object type="application/x-shockwave-flash" data="./bin/publisher.swf"
-            id="publisher" width="320" height="240">
+    <h1>To play high resolution video change player container size</h1>
+    <style>
+        .publisher-wrapper {
+            width: 320px;
+            height: 240px;
+            float: left;
+        }
 
-        <param name="movie" value="./bin/publisher.swf"/>
-        <param name="wmode" value="opaque"/>
-        <param name='AllowScriptAccess' value='always'/>
-        <param name="FlashVars"
-               value="eventsCallback=publisherEvents&errorsCallback=publisherErrors&logsCallback=publisherLogs"/>
+        .player-wrapper {
+            width: 500px;
+            height: 375px;
+            float: left;
+            margin-left: 20px;
+        }
 
-        <param name="quality" value="high"/>
-        <param name="menu" value="false"/>
+        .clear {
+            clear: both;
+        }
+    </style>
+    <div>
+        <div class="publisher-wrapper">
+            <object type="application/x-shockwave-flash" data="../bin/publisher.swf"
+                    id="publisher" width="100%" height="100%">
 
-    </object>
+                <param name="movie" value="../bin/publisher.swf"/>
+                <param name="wmode" value="opaque"/>
+                <param name='AllowScriptAccess' value='always'/>
+                <param name="FlashVars"
+                       value="eventsCallback=publisherEvents&errorsCallback=publisherErrors&logsCallback=publisherLogs"/>
 
-    <object type="application/x-shockwave-flash" data="./bin/player.swf"
-            id="player" width="320" height="240">
+                <param name="quality" value="high"/>
+                <param name="menu" value="false"/>
 
-        <param name="movie" value="./bin/player.swf"/>
-        <param name="wmode" value="opaque"/>
-        <param name='AllowScriptAccess' value='always'/>
-        <param name="FlashVars"
-               value="eventsCallback=playerEvents&errorsCallback=playerErrors&logsCallback=playerLogs"/>
+            </object>
+        </div>
+        <div class="player-wrapper">
+            <object type="application/x-shockwave-flash" data="../bin/player.swf"
+                    id="player" width="100%" height="100%">
 
-        <param name="quality" value="high"/>
-        <param name="menu" value="false"/>
-    </object>
+                <param name="movie" value="../bin/player.swf"/>
+                <param name="wmode" value="opaque"/>
+                <param name='AllowScriptAccess' value='always'/>
+                <param name="FlashVars"
+                       value="eventsCallback=playerEvents&errorsCallback=playerErrors&logsCallback=playerLogs"/>
+
+                <param name="quality" value="high"/>
+                <param name="menu" value="false"/>
+            </object>
+        </div>
+        <div class="clear"></div>
+    </div>
 
     <div class="panel container">
         <button id="play1" class="btn btn-primary">Play FLV from stream</button>
@@ -64,7 +89,7 @@
         });
 
         $('#play3').click(function () {
-            player.play('rtmp://lvk.cloudapp.net:1937/xcams', 'myStream01');
+            player.play('rtmp://lvk.cloudapp.net:1937/xcams', 'myStream04');
         });
 
         $('#stop').click(function () {
@@ -105,7 +130,7 @@
         console.log("publisherEvents", event);
         if (event == "created") {
             var publisher = document.getElementById('publisher');
-            publisher.publish("rtmp://lvk.cloudapp.net:1937/xcams", "myStream01");
+            publisher.publish("rtmp://lvk.cloudapp.net:1937/xcams", "myStream04");
         }
     }
 

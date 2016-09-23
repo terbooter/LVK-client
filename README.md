@@ -16,15 +16,15 @@ Both connect to LVK-server
 
 ## Publisher
 JS API:
-* ```actionscript
-publish(uri:String, streamName:String)
-```
+* `publish(uri:String, streamName:String)`
 * `stop()`
 * `getStatus():Object`
-* ```actionscript
+* 
+```actionscript
 setMode(width:int, height:int, fps:int = 0)
 ```
-* ```actionscript
+* 
+```actionscript
 takeScreenshot(uploadURL:String,
                  jpgFile:String,
                  token:String,
@@ -36,11 +36,13 @@ takeScreenshot(uploadURL:String,
 
 ## Player
 JS API:
-* ```actionscript
+* 
+```actionscript
 play(uri:String, streamName:String)
 ```
 * `stop()`
 * `getStatus():Object`
-* ```actionscript
+* 
+```actionscript
 setSoundVolume(volume:int)
 ```

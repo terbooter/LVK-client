@@ -23,6 +23,7 @@ import lvk.publisher.events.StateEvent;
 import lvk.screenshot.ImgUploader;
 import lvk.screenshot.Screenshoter;
 import lvk.screenshot.UploadParams;
+import lvk.util.AutoNetConnection;
 
 [SWF(width="320", height="240", backgroundColor="#BABABA", frameRate="60")]
 public class Publisher extends Sprite implements IPublisher {
@@ -41,7 +42,7 @@ public class Publisher extends Sprite implements IPublisher {
     private var video:Video;
     private var cam:Camera;
     private var mic:Microphone;
-    private var nc:NetConnection;
+    private var nc:AutoNetConnection;
     private var ns:NetStream;
     private var settingsButtonLayer:SettingsButtonLayer = new SettingsButtonLayer();
     private var screenshoter:Screenshoter;
@@ -102,7 +103,7 @@ public class Publisher extends Sprite implements IPublisher {
                 ns.removeEventListener(NetStatusEvent.NET_STATUS, onStream);
             }
 
-            ns = new NetStream(nc);
+            ns = new NetStream(nc.getNetConnection());
             ns.addEventListener(NetStatusEvent.NET_STATUS, onStream);
             ns.attachCamera(cam);
             ns.attachAudio(mic);
@@ -130,12 +131,12 @@ public class Publisher extends Sprite implements IPublisher {
 
         this.uri = uri;
         if (!nc) {
-            nc = new NetConnection();
+            nc = new AutoNetConnection();
             nc.addEventListener(NetStatusEvent.NET_STATUS, onNet);
         } else {
             nc.close();
         }
-        trace("AMF version:", nc.objectEncoding);
+//        trace("AMF version:", nc.objectEncoding);
         nc.connect(uri);
     }
 
@@ -145,9 +146,9 @@ public class Publisher extends Sprite implements IPublisher {
         if (code == "NetConnection.Connect.Success") {
             startPublish(streamName);
         } else if (code == "NetConnection.Connect.Closed") {
-            connect(uri);
+//            connect(uri);
         } else if (code == "NetConnection.Connect.Failed") {
-            connect(uri);
+//            connect(uri);
         }
     }
 

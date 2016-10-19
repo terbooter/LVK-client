@@ -188,7 +188,8 @@ public class Publisher extends Sprite implements IPublisher {
             thumbURL: thumbURL,
             liveDelay: false
         };
-        status.connected = nc && nc.connected;
+
+        status.connected = Boolean(nc && nc.connected);
         status.publishing = Boolean(ns);
 
         return status;

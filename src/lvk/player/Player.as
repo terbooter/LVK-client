@@ -10,11 +10,12 @@ import flash.utils.clearTimeout;
 
 import lvk.player.events.LogEvent;
 import lvk.player.events.StateEvent;
+import lvk.util.AutoNetConnection;
 
 [SWF(width="320", height="240", backgroundColor="#BABABA", frameRate="60")]
 public class Player extends Sprite implements IPlayer {
 
-    private var nc:NetConnection = new NetConnection();
+    private var nc:AutoNetConnection = new AutoNetConnection();
     private var ns:NetStream;
     private var video:Video;
     private var preloader:Preloader;
@@ -54,7 +55,7 @@ public class Player extends Sprite implements IPlayer {
             video = new Video(videoWidth, videoHeigth);
             addChild(video);
 
-            ns = new NetStream(nc);
+            ns = new NetStream(nc.getNetConnection());
             ns.client = this;
             ns.addEventListener(NetStatusEvent.NET_STATUS, onStream);
             video.attachNetStream(ns);

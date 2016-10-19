@@ -62,7 +62,7 @@ public class PlayerWrapper extends Sprite {
         player.addEventListener(LogEvent.LOG, onPlayerLog);
 
         ExternalInterface.call(stateCallback, 'created');
-        ExternalInterface.call(logsCallback, 'ver. 1.1.1');
+        ExternalInterface.call(logsCallback, 'ver. 1.2.1');
     }
 
     public function play(uri:String, streamName:String):void {
